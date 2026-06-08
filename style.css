@@ -77,3 +77,20 @@ input, select {
     font-weight: bold;
 }
 
+/* HPバーの枠 */
+#hp-bar-container {
+    width: 100%;
+    background-color: #ddd; /* 背景はグレー */
+    border-radius: 10px;
+    height: 20px;
+    margin: 10px 0;
+    overflow: hidden; /* 中身がはみ出ないようにする */
+}
+
+/* HPバーの中身 */
+#hp-bar-fill {
+    height: 100%;
+    width: 100%; /* 初期値は満タン */
+    background-color: #28a745; /* 緑色 */
+    transition: width 0.5s ease-in-out; /* ここでアニメーションを設定！ */
+}
