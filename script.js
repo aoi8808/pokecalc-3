@@ -140,7 +140,6 @@ function parseMoveCSV(csvText) {
             categoryCode = "status"; 
         }
 
-       
         result.push({
             name: data[0],
             type: data[1],
@@ -149,7 +148,7 @@ function parseMoveCSV(csvText) {
             isContact: data[6] ? (data[6].trim() === "〇") : false, // 接触技 (7列目)
             isSound:   data[7] ? (data[7].trim() === "〇") : false, // 音技 (8列目)
             isPunch:   data[8] ? (data[8].trim() === "〇") : false, // パンチ技 (9列目)
-            isBite:    data[9]? (data[9].trim() === "〇"): false, // 牙技 (10列目)
+            isBite:    data[9] ? (data[9].trim() === "〇") : false, // 牙技 (10列目)
             isAura:    data[10]? (data[10].trim() === "〇"): false  // 波動技 (11列目)
         });
     }
@@ -174,13 +173,12 @@ async function initApp() {
         
         console.log("データの読み込みが完了した。");
     } catch (error) {
-        console.error("データの読み込みに失敗した。", error);
+        console.error("データの読み込みに失敗した。Live Serverで開いているか確認してください。", error);
     }
 }
 
 // ひらがなをカタカナに変換する関数である。
 function hiraToKata(str) {
-    // ひらがなの範囲にある文字を見つけたら、文字コードに96(16進数で0x60)を足してカタカナに変換する。
     return str.replace(/[\u3041-\u3096]/g, function(match) {
         let chr = match.charCodeAt(0) + 0x60;
         return String.fromCharCode(chr);
@@ -199,7 +197,6 @@ function updateSelectBox(selectElement, dataArray, keyword) {
     for (let i = 0; i < dataArray.length; i++) {
         let dataName = dataArray[i].name;
         
-        //変換された kataKeyword を使って含まれているかチェックする。
         if (dataName.includes(kataKeyword)) {
             matchedItems.push({ index: i, name: dataName });
         }
@@ -207,7 +204,6 @@ function updateSelectBox(selectElement, dataArray, keyword) {
 
     // 検索キーワードから始まる名前を優先して上に並び替える処理である。
     matchedItems.sort((a, b) => {
-        //ここもkataKeyword を使う。
         let aStarts = a.name.startsWith(kataKeyword);
         let bStarts = b.name.startsWith(kataKeyword);
         
@@ -227,23 +223,20 @@ function updateSelectBox(selectElement, dataArray, keyword) {
 
 // 特性のセレクトボックスを自動で更新する関数である。
 function updateTraitSelect(selectElement, pokemon) {
-    selectElement.innerHTML = ''; // 中身を一旦リセットする
+    selectElement.innerHTML = ''; 
 
-    // CSVのデータから特性1を追加
     if (pokemon.ability1) {
         let option1 = document.createElement("option");
         option1.text = pokemon.ability1;
-        option1.value = pokemon.ability1; // valueに「あついしぼう」などの名前を入れる
+        option1.value = pokemon.ability1; 
         selectElement.appendChild(option1);
     }
-    // 特性2を追加
     if (pokemon.ability2) {
         let option2 = document.createElement("option");
         option2.text = pokemon.ability2;
         option2.value = pokemon.ability2;
         selectElement.appendChild(option2);
     }
-    // 夢特性を追加
     if (pokemon.hiddenAbility) {
         let option3 = document.createElement("option");
         option3.text = pokemon.hiddenAbility + " (夢)";
@@ -251,7 +244,6 @@ function updateTraitSelect(selectElement, pokemon) {
         selectElement.appendChild(option3);
     }
 
-    // 「特性なし/無視」の選択肢を追加
     let optionNone = document.createElement("option");
     optionNone.text = "特性なし / 無視";
     optionNone.value = "none";
@@ -308,12 +300,9 @@ function updateAttacker(){
         let nature = 1.1; 
         let atkEv = Number(atkEvInput.value); 
         
-        // チャンピオンズ仕様のステータス計算である。
         let coreStat = Math.floor((baseAttack * 2 + 31) * 50 / 100) + 5 + atkEv;
         let finalStat = Math.floor(coreStat * nature);
 
-
-       // 特性の処理である。
         let trait = atkTraitSelect.value;
         if ((trait === "ちからもち" || trait === "ヨガパワー") && statType === "attack") {
             finalStat = Math.floor(finalStat * 2);
@@ -323,7 +312,6 @@ function updateAttacker(){
             finalStat = Math.floor(finalStat * 1.5);
         }
 
-        
         attackInput.value = finalStat;
 
         let speedEvCalc1 = Math.floor(252 / 4);
@@ -336,22 +324,15 @@ function updateAttacker(){
 function changeEv(inputId, amount) {
     const input = document.getElementById(inputId);
     
-    // 現在の数値を読み取る（数値でない場合は0とする）
     let val = parseInt(input.value) || 0;
-    
-    // 値を計算
     val += amount;
 
-    // 0〜32の範囲に制限する（min/maxを超えないように）
     if (val < 0) val = 0;
     if (val > 32) val = 32;
 
-    // 新しい値を代入
     input.value = val;
-
     input.dispatchEvent(new Event('change'));
 }
-
 
 // 防御側のポケモンや設定が変更されたときの処理である。
 function updateDefender(){
@@ -368,12 +349,10 @@ function updateDefender(){
         let nature = 1.1;
         let defEv = Number(defEvInput.value);
         
-        // チャンピオンズ仕様の防御力計算である。
         let defCore = Math.floor((baseDef * 2 + 31) * 50 / 100) + 5 + defEv;
         let finalDef = Math.floor(defCore * nature);
         defenceInput.value = finalDef;
 
-        // チャンピオンズ仕様のHP計算である。
         let hpEv = Number(hpEvInput.value);
         let finalHP = Math.floor((baseHP * 2 + 31) * 50 / 100) + 60 + hpEv; 
         hpInput.value = finalHP;
@@ -384,28 +363,23 @@ function updateDefender(){
     }
 }
 
-// 攻撃・防御の各種設定が変更された際にステータスを更新する。
-// 攻撃側のポケモンが選ばれたときに、特性ボックスを書き換えてからステータスを更新する。
+// 設定が変更された際にステータスを更新する。
 attackerSearch.addEventListener("change", function() {
     let index = attackerSearch.value;
     if (index !== "") {
-        // ★攻撃側のセレクトボックス（atkTraitSelect）を更新！
         updateTraitSelect(atkTraitSelect, pokedex[index]);
     }
     updateAttacker();
 });
 
-// 防御側のポケモンが選ばれたときの処理。
 defenderSearch.addEventListener("change", function() {
     let index = defenderSearch.value;
     if (index !== "") {
-        // ★防御側のセレクトボックス（defTraitSelect）を更新！
         updateTraitSelect(defTraitSelect, pokedex[index]);
     }
     updateDefender();
 });
 
-// その他の設定変更時の処理
 attackTypeSelect.addEventListener("change", updateAttacker);
 atkTraitSelect.addEventListener("change", updateAttacker);
 atkEvInput.addEventListener("change", updateAttacker);
@@ -415,7 +389,6 @@ defTraitSelect.addEventListener("change", updateDefender);
 defEvInput.addEventListener("change", updateDefender);
 hpEvInput.addEventListener("change", updateDefender);
 
-// 攻撃の種類を手動で変更した場合、防御側も自動で合わせる。
 attackTypeSelect.addEventListener("change", function() {
     if (attackTypeSelect.value === "attack") {
         defenceTypeSelect.value = "defence";
@@ -427,7 +400,6 @@ attackTypeSelect.addEventListener("change", function() {
 
 // タイプ相性を判定する関数である。
 function checkTypeMatch(defType, moveType){
-    // 相手が単タイプで、type2が「なし」の場合は1.0倍を返す。
     if (defType === "なし" || !defType || !moveType) {
         return 1.0;
     }
@@ -482,19 +454,17 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
         power = Math.floor(power * 1.2);
     }
 
-    if (atkTrait === "パンクロック" && isBite === true) {
+    if (atkTrait === "パンクロック" && isSound === true) { // ★パンクロックは音技
         power = Math.floor(power * 1.3);
     }
 
-    if (atkTrait === "がんじょうあご" && isContact === true) {
-        power = Math.floor(power * 1.3);
+    if (atkTrait === "がんじょうあご" && isBite === true) { // ★がんじょうあごは牙技
+        power = Math.floor(power * 1.5);
     }
 
     if (atkTrait === "メガランチャー" && isAura === true) {
         power = Math.floor(power * 1.5);
     }
-
-    
 
     if(weather === "sun"){
         if(moveType === "ほのお") power = Math.floor(power * 1.5);
@@ -504,7 +474,6 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
     let tempDefRank = defRank;
 
     if(vital === true){
-        // 急所の場合、自身に不利なランク補正を無視する。
         if (tempAtkRank < 0) {
             tempAtkRank = 0;
         }
@@ -519,22 +488,17 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
     let finalAtk = Math.floor(attack * atkRankMod);
     let finalDef = Math.floor(defence * defRankMod);
 
-    // 基本ダメージを計算する。
     let step2 = Math.floor(22 * power * finalAtk / finalDef);    
     let baseDamage = Math.floor(step2 / 50) + 2;
 
-    // やけどの処理である。
     if (statType === "attack" && situationModifier === 0.5) {
-    if(atkTrait === "こんじょう"){
+        if(atkTrait === "こんじょう"){
             baseDamage = Math.floor(baseDamage * 1.5);
+        } else { 
+            baseDamage = Math.floor(baseDamage * 0.5);
         }
-
-    else{ baseDamage = Math.floor(baseDamage * 0.5);
-    }
     }
 
-    
-    // 壁の処理である。
     if (vital === false) { 
         if (statType === "attack" && barrier === "reflect") {
             baseDamage = Math.floor(baseDamage * 0.5); 
@@ -543,7 +507,6 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
         }
     }
 
-    // 防御側の特性処理である。
     if(defTrait === "あついしぼう" && (moveType === "ほのお" || moveType === "こおり") ){
         baseDamage = Math.floor(baseDamage / 2);
     }
@@ -554,53 +517,40 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
 
     if(defTrait === "もふもふ"){
         if(moveType === "ほのお"){
-            // 炎技のときは、接触判定に関わらず2倍（ただし急所などは別計算）
             baseDamage = Math.floor(baseDamage * 2.0);
-    } else if(isContact === true){
-            // 炎技ではなく、かつ接触技のときだけ半減
+        } else if(isContact === true){
             baseDamage = Math.floor(baseDamage * 0.5);
         }
     }
 
-    if(defTrait === "マルチスケイル"){
+    if(defTrait === "マルチスケイル"){ // ※今後HP満タンチェックを追加するならここに isHpFull を追加
         baseDamage = Math.floor(baseDamage / 2);
     }
 
-
-    
-   // 急所のダメージ補正である。
     if(vital === true){
         if(atkTrait === "スナイパー"){
-            // スナイパーなら急所ダメージ2.25倍！
             baseDamage = Math.floor(baseDamage * 2.25);
         } else {
-            // 通常の急所は1.5倍
             baseDamage = Math.floor(baseDamage * 1.5);
         }
     }
 
-    // 乱数によるダメージのブレを計算する。
     let minDamage = Math.floor(baseDamage * 0.85);
     let maxDamage = Math.floor(baseDamage * 1.0); 
 
-    // タイプ一致の補正である。
     if (isStab === true) {
         if (atkTrait === "てきおうりょく") {
-            // てきおうりょくの場合は2.0倍になる！
             minDamage = Math.floor(minDamage * 2.0);
             maxDamage = Math.floor(maxDamage * 2.0);
         } else {
-            // 通常のタイプ一致は1.5倍
             minDamage = Math.floor(minDamage * 1.5);
             maxDamage = Math.floor(maxDamage * 1.5);
         }
     }
 
-    // タイプ相性の補正である。
     minDamage = Math.floor(minDamage * modifier);
     maxDamage = Math.floor(maxDamage * modifier);
 
-    // 持ち物による補正である。
     if (item === "typeBoost") {
         minDamage = Math.floor(minDamage * 1.2);
         maxDamage = Math.floor(maxDamage * 1.2);
@@ -615,6 +565,12 @@ calcButton.addEventListener("click", function() {
     let power = Number(powerInput.value);
     let defence = Number(defenceInput.value);
 
+    // ★安全対策：もしポケモンや技が選ばれていなかったら計算を止める
+    if (attack === 0 || power === 0 || defence === 0) {
+        resultArea.innerHTML = "ポケモンと技を正しく選択してください。";
+        return;
+    }
+
     let situationModifier = Number(situationSelect.value); 
     let statType = attackTypeSelect.value;
 
@@ -628,8 +584,10 @@ calcButton.addEventListener("click", function() {
     let isBite = false;
     let isAura = false;
     
+    // ★バグ修正箇所：selectedMove をここでしっかり定義する！
     if(moveIndex !== ""){
-        moveType = moveDex[moveIndex].type;
+        let selectedMove = moveDex[moveIndex]; 
+        moveType = selectedMove.type;
         isContact = selectedMove.isContact;
         isPunch = selectedMove.isPunch;
         isBite = selectedMove.isBite;
@@ -637,6 +595,11 @@ calcButton.addEventListener("click", function() {
     }    
 
     let defIndex = defenderSearch.value;
+    if (defIndex === "") {
+        resultArea.innerHTML = "防御側のポケモンを選択してください。";
+        return;
+    }
+    
     let defType1 = pokedex[defIndex].type1;
     let defType2 = pokedex[defIndex].type2;
 
@@ -650,23 +613,23 @@ calcButton.addEventListener("click", function() {
     let isStab = stabCheck.checked;
     let vital  = vitalCheck.checked;
 
-    let defTrait = document.getElementById("defTraitSelect").value;
+    // ★バグ修正箇所：攻撃と防御の特性を正しく取得する！
+    let atkTrait = atkTraitSelect.value;
+    let defTrait = defTraitSelect.value;
+
     let barrier = barrierSelect.value;
     let weather = weatherSelect.value;
     let item = itemSelect.value;
 
-    // 関数に引数を渡してダメージを計算する。
     let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura);
     let minDamage = damageRange[0];
     let maxDamage = damageRange[1];
 
-    // HPに対する割合を計算する。
     let minPercent = (minDamage / defenderHP) * 100;
     minPercent = Math.floor(minPercent * 100) / 100;
     let maxPercent = (maxDamage / defenderHP) * 100;
     maxPercent = Math.floor(maxPercent * 100) / 100;
 
-    // 確定・乱数で倒せる発数を判定する。
     let hitCountText = "";
     if(minPercent >= 100){
         hitCountText = "（確定1発）";
@@ -682,7 +645,6 @@ calcButton.addEventListener("click", function() {
         hitCountText = "（4発以上）";
     }
     
-    // 結果を画面に出力する。
     let resultText = "ダメージ:" + minDamage + " ～ " + maxDamage + "<br>";   
     resultText += "割合: " + minPercent + "% ～ " + maxPercent + "%<br>";
     resultText += "目安: " + hitCountText;
