@@ -565,7 +565,7 @@ calcButton.addEventListener("click", function() {
     let power = Number(powerInput.value);
     let defence = Number(defenceInput.value);
 
-    // ★安全対策：もしポケモンや技が選ばれていなかったら計算を止める
+    //もしポケモンや技が選ばれていなかったら計算を止める
     if (attack === 0 || power === 0 || defence === 0) {
         resultArea.innerHTML = "ポケモンと技を正しく選択してください。";
         return;
@@ -584,7 +584,7 @@ calcButton.addEventListener("click", function() {
     let isBite = false;
     let isAura = false;
     
-    // ★バグ修正箇所：selectedMove をここでしっかり定義する！
+
     if(moveIndex !== ""){
         let selectedMove = moveDex[moveIndex]; 
         moveType = selectedMove.type;
@@ -613,7 +613,7 @@ calcButton.addEventListener("click", function() {
     let isStab = stabCheck.checked;
     let vital  = vitalCheck.checked;
 
-    // ★バグ修正箇所：攻撃と防御の特性を正しく取得する！
+   
     let atkTrait = atkTraitSelect.value;
     let defTrait = defTraitSelect.value;
 
