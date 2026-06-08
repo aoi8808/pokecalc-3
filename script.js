@@ -36,37 +36,40 @@ let moveDex = [];
 
 // CSVのテキストをポケモンの配列に変換する関数である。
 function parsePokemonCSV(csvText) {
-    const lines = csvText.split('\n');
+    // 修正！
+    const rows = parseCSVRobust(csvText);
     const result = [];
     
     // 1行目のヘッダーを飛ばすためにインデックス1から開始する。
-    for (let i = 1; i < lines.length; i++) {
-        // 空の行は無視する。
-        if (!lines[i].trim()) continue; 
-        
-        // カンマで区切って配列にする。
-        const data = lines[i].split(',');
+    for (let i = 1; i < rows.length; i++) {
+        const data = rows[i];
 
+        // データが極端に少ない行（空行など）は無視する
+        if (data.length < 5) continue; 
+        
         // 名前にフォルムを結合する。
         let pokemonName = data[1];
         let formName = data[2];
         
+        // 名前が空欄（または未定義）の行はスキップしてエラーを防ぐ
+        if (!pokemonName || pokemonName.trim() === "") continue;
+
         // フォルムが通常以外、かつ空欄ではない場合、名前の後ろに付与する。
         if (formName && formName !== "通常" && formName !== "") {
             pokemonName = pokemonName + "(" + formName + ")";
         }
 
-        // 必要な列を取得する。
+        // 必要な列を取得する。（数値が空でもエラーにならないよう || 0 を追加）
         result.push({
             name: pokemonName,
-            type1: data[3],
+            type1: data[3] ? data[3].trim() : "なし",
             type2: data[4] ? data[4].trim() : "なし",
-            hp: Number(data[5]),
-            attack: Number(data[6]),
-            defence: Number(data[7]),
-            spAttack: Number(data[8]),
-            spDefence: Number(data[9]),
-            speed: Number(data[10]),
+            hp: Number(data[5]) || 0,
+            attack: Number(data[6]) || 0,
+            defence: Number(data[7]) || 0,
+            spAttack: Number(data[8]) || 0,
+            spDefence: Number(data[9]) || 0,
+            speed: Number(data[10]) || 0,
             ability1: data[11] ? data[11].trim() : "",
             ability2: data[12] ? data[12].trim() : "",
             hiddenAbility: data[13] ? data[13].trim() : ""
