@@ -448,10 +448,32 @@ function getRankModifier(rank) {
 }
 
 // 最終的なダメージ計算を行う関数である。
-function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait){
+function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura){
     if(field === true){
         power = Math.floor(power * 1.3);
     }
+
+   if (atkTrait === "かたいつめ" && isContact === true) {
+        power = Math.floor(power * 1.3);
+    }
+
+    if (atkTrait === "てつのこぶし" && isPunch === true) {
+        power = Math.floor(power * 1.2);
+    }
+
+    if (atkTrait === "パンクロック" && isBite === true) {
+        power = Math.floor(power * 1.3);
+    }
+
+    if (atkTrait === "がんじょうあご" && isContact === true) {
+        power = Math.floor(power * 1.3);
+    }
+
+    if (atkTrait === "メガランチャー" && isAura === true) {
+        power = Math.floor(power * 1.5);
+    }
+
+    
 
     if(weather === "sun"){
         if(moveType === "ほのお") power = Math.floor(power * 1.5);
@@ -554,8 +576,17 @@ calcButton.addEventListener("click", function() {
 
     let moveIndex = moveSearch.value;
     let moveType = "";
+    let isContact = false;
+    let isPunch = false;
+    let isBite = false;
+    let isAura = false;
+    
     if(moveIndex !== ""){
         moveType = moveDex[moveIndex].type;
+        isContact = selectedMove.isContact;
+        isPunch = selectedMove.isPunch;
+        isBite = selectedMove.isBite;
+        isAura = selectedMove.isAura;
     }    
 
     let defIndex = defenderSearch.value;
@@ -578,7 +609,7 @@ calcButton.addEventListener("click", function() {
     let item = itemSelect.value;
 
     // 関数に引数を渡してダメージを計算する。
-    let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait);
+    let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura);
     let minDamage = damageRange[0];
     let maxDamage = damageRange[1];
 
