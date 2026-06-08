@@ -94,3 +94,16 @@ input, select {
     background-color: #28a745; /* 緑色 */
     transition: width 0.5s ease-in-out; /* ここでアニメーションを設定！ */
 }
+
+.pokemon-selector-row {
+    display: flex;          /* 横並びにする */
+    align-items: center;    /* 縦方向の真ん中を揃える */
+    gap: 15px;              /* 画像と選択欄の間の余白 */
+    margin-bottom: 10px;
+}
+
+/* 念のため、画像が大きすぎないように調整 */
+#atkPokemonImg {
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
