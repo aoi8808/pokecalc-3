@@ -29,6 +29,8 @@ const itemSelect = document.getElementById("itemSelect");
 const weatherSelect = document.getElementById("weatherSelect");
 const calcButton = document.getElementById("calcButton");
 const resultArea = document.getElementById("resultArea");
+const hpBarFill = document.getElementById("hp-bar-fill");
+
 
 // データを格納する配列である。
 let pokedex = [];
@@ -647,6 +649,24 @@ calcButton.addEventListener("click", function() {
     } else {
         hitCountText = "（4発以上）";
     }
+
+        // HPバーの幅を計算（100%を超えないように調整）
+    let barWidth = maxPercent; 
+    if (barWidth > 100) barWidth = 100;
+    if (barWidth < 0) barWidth = 0;
+
+    // スタイルを更新してバーを動かす
+    hpBarFill.style.width = barWidth + "%";
+
+    // ついでに色も変えてみる（50%以下で黄色、20%以下で赤にする）
+    if (barWidth <= 20) {
+        hpBarFill.style.backgroundColor = "#dc3545"; // 赤
+    } else if (barWidth <= 50) {
+        hpBarFill.style.backgroundColor = "#ffc107"; // 黄色
+    } else {
+        hpBarFill.style.backgroundColor = "#28a745"; // 緑
+    }
+
     
     let resultText = "ダメージ:" + minDamage + " ～ " + maxDamage + "<br>";   
     resultText += "割合: " + minPercent + "% ～ " + maxPercent + "%<br>";
