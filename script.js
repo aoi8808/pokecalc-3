@@ -356,7 +356,7 @@ if (index !== "") {
         let finalSpeed1 = Math.floor((baseSpeed1 * 2 + 31 + speedEvCalc1) * 50 / 100) + 50 + 10;
         speedInput1.value = finalSpeed1;
     }
-}
+
 
 // 努力値を増減させる関数
 function changeEv(inputId, amount) {
