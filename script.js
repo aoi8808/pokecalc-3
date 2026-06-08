@@ -294,43 +294,29 @@ moveSearch.addEventListener("change", function(){
 });
 
 // 攻撃側のポケモンや設定が変更されたときの処理である。
+// 攻撃側のポケモンや設定が変更されたときの処理である。
 function updateAttacker(){
     let index = attackerSearch.value;
+    const img = document.getElementById("atkPokemonImg");
 
     if(index !== ""){
         let selectedPokemon = pokedex[index];
 
-       const img = document.getElementById("atkPokemonImg");
-
-        //名前をURL用に変換する処理
+        // --- 画像の処理 ---
         // 1. 小文字にする 2. 記号やカッコを削除する
         let formattedName = selectedPokemon.name
             .toLowerCase()
-            .replace(/[()（）・\s]/g, ''); // 括弧、中黒、空白を削除
+            .replace(/[()（）・\s]/g, '');
 
-        // 画像URLを組み立てる (ShowdownのURL)
-        // .gif を使うとアニメーションします。静止画がいい場合は .png に変えてください
+        img.style.display = "block"; // 画像を表示
         img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`;
 
-        // 画像読み込み失敗時の対策
+        // 画像読み込み失敗時の対策 (スペルミスも修正済)
         img.onerror = function() {
-            // 見つからない場合は通常フォルムに戻すか、NoImageを出す
-            this.src = `https://play.pokemon szdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`;
+            this.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`;
         };
-    }
-}
 
-        // updateAttacker 関数の中に追加
-const img = document.getElementById("atkPokemonImg");
-
-// ポケモンが選ばれているときだけ画像を表示する
-if (index !== "") {
-    img.style.display = "block"; // 表示
-    img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`; // URL
-} else {
-    img.style.display = "none";  // 非表示（画像URLが空の時は枠を隠す）
-}
-
+        // --- ステータスの計算 ---
         let statType = attackTypeSelect.value;
         let baseAttack = selectedPokemon[statType];
         let baseSpeed1 = selectedPokemon.speed;
@@ -355,8 +341,12 @@ if (index !== "") {
         let speedEvCalc1 = Math.floor(252 / 4);
         let finalSpeed1 = Math.floor((baseSpeed1 * 2 + 31 + speedEvCalc1) * 50 / 100) + 50 + 10;
         speedInput1.value = finalSpeed1;
+        
+    } else {
+        // ポケモンが未選択の時は画像を隠す
+        img.style.display = "none";
     }
-
+}
 
 // 努力値を増減させる関数
 function changeEv(inputId, amount) {
@@ -375,43 +365,25 @@ function changeEv(inputId, amount) {
 // 防御側のポケモンや設定が変更されたときの処理である。
 function updateDefender(){
     let index = defenderSearch.value;
+    const img = document.getElementById("defPokemonImg");
 
     if(index !== ""){
         let selectedPokemon = pokedex[index];
 
-        const img = document.getElementById("defPokemonImg");
-
-        // 名前をURL用に変換する処理
-        // 1. 小文字にする 2. 記号やカッコを削除する
+        // --- 画像の処理 ---
         let formattedName = selectedPokemon.name
             .toLowerCase()
-            .replace(/[()（）・\s]/g, ''); // 括弧、中黒、空白を削除
+            .replace(/[()（）・\s]/g, ''); 
 
-        // 画像URLを組み立てる (ShowdownのURL)
-        // .gif を使うとアニメーションします。静止画がいい場合は .png に変えてください
+        img.style.display = "block"; // 画像を表示
         img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`;
 
-        // 画像読み込み失敗時の対策
         img.onerror = function() {
-            // 見つからない場合は通常フォルムに戻すか、NoImageを出す
-            this.src = `https://play.pokemon szdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`; 
+            this.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`; 
         };
-    }
-}
 
-        // updateAttacker 関数の中に追加
-const img = document.getElementById("defPokemonImg");
-
-// ポケモンが選ばれているときだけ画像を表示する
-if (index !== "") {
-    img.style.display = "block"; // 表示
-    img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`; //URL
-} else {
-    img.style.display = "none";  // 非表示（画像URLが空の時は枠を隠す）
-}
-
+        // --- ステータスとHPの計算 ---
         let defStatType = defenceTypeSelect.value;
-
         let baseHP = selectedPokemon.hp;
         let baseDef = selectedPokemon[defStatType];
         let baseSpeed2 = selectedPokemon.speed;
@@ -430,6 +402,10 @@ if (index !== "") {
         let speedEvCalc2 = Math.floor(252 / 4);
         let finalSpeed2 = Math.floor((baseSpeed2 * 2 + 31 + speedEvCalc2) * 50 / 100) + 50 + 10;
         speedInput2.value = finalSpeed2;
+        
+    } else {
+        // ポケモンが未選択の時は画像を隠す
+        img.style.display = "none";
     }
 }
 
