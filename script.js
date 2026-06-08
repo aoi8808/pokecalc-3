@@ -332,6 +332,27 @@ function updateAttacker(){
     }
 }
 
+// 努力値を増減させる関数
+function changeEv(inputId, amount) {
+    const input = document.getElementById(inputId);
+    
+    // 現在の数値を読み取る（数値でない場合は0とする）
+    let val = parseInt(input.value) || 0;
+    
+    // 値を計算
+    val += amount;
+
+    // 0〜32の範囲に制限する（min/maxを超えないように）
+    if (val < 0) val = 0;
+    if (val > 32) val = 32;
+
+    // 新しい値を代入
+    input.value = val;
+
+    input.dispatchEvent(new Event('change'));
+}
+
+
 // 防御側のポケモンや設定が変更されたときの処理である。
 function updateDefender(){
     let index = defenderSearch.value;
