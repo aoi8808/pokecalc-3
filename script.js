@@ -140,11 +140,17 @@ function parseMoveCSV(csvText) {
             categoryCode = "status"; 
         }
 
+       
         result.push({
             name: data[0],
             type: data[1],
             category: categoryCode,
-            power: Number(data[3]) || 0
+            power: Number(data[3]) || 0,
+            isContact: data[6] ? (data[6].trim() === "〇") : false, // 接触技 (7列目)
+            isSound:   data[7] ? (data[7].trim() === "〇") : false, // 音技 (8列目)
+            isPunch:   data[8] ? (data[8].trim() === "〇") : false, // パンチ技 (9列目)
+            isBite:    data[9]? (data[9].trim() === "〇"): false, // 牙技 (10列目)
+            isAura:    data[10]? (data[10].trim() === "〇"): false  // 波動技 (11列目)
         });
     }
     return result;
@@ -153,11 +159,11 @@ function parseMoveCSV(csvText) {
 // アプリ起動時にサーバー上のCSVを自動で読み込む関数である。
 async function initApp() {
     try {
-        const pokeResponse = await fetch('./pokemons.csv');
+        const pokeResponse = await fetch('./pokemon.csv');
         const pokeText = await pokeResponse.text();
         pokedex = parsePokemonCSV(pokeText);
 
-        const moveResponse = await fetch('./moves.csv');
+        const moveResponse = await fetch('./move.csv');
         const moveText = await moveResponse.text();
         moveDex = parseMoveCSV(moveText);
 
