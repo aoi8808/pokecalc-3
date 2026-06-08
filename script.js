@@ -63,6 +63,7 @@ function parsePokemonCSV(csvText) {
 
         // 必要な列を取得する。（数値が空でもエラーにならないよう || 0 を追加）
         result.push({
+            id: data[0],
             name: pokemonName,
             type1: data[3] ? data[3].trim() : "なし",
             type2: data[4] ? data[4].trim() : "なし",
@@ -298,6 +299,18 @@ function updateAttacker(){
 
     if(index !== ""){
         let selectedPokemon = pokedex[index];
+
+        // ここで画像要素を取得してURLを書き換える
+        const img = document.getElementById("atkPokemonImg");
+        
+        // PokeAPIのURLを生成
+        img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${selectedPokemon.id}.png`;
+
+        // 画像がうまく読み込めなかった時の対策
+        img.onerror = function() {
+            this.src = "no_image.png"; // 画像がない場合の予備画像
+        };
+        
         let statType = attackTypeSelect.value;
         let baseAttack = selectedPokemon[statType];
         let baseSpeed1 = selectedPokemon.speed;
