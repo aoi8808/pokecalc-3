@@ -527,6 +527,25 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
         baseDamage = Math.floor(baseDamage / 2);
     }
 
+    if(defTrait === "たいねつ" && moveType === "ほのお" ){
+        baseDamage = Math.floor(baseDamage / 2);
+    }
+
+    if(defTrait === "もふもふ"){
+        if(moveType === "ほのお"){
+            // 炎技のときは、接触判定に関わらず2倍（ただし急所などは別計算）
+            baseDamage = Math.floor(baseDamage * 2.0);
+    } else if(isContact === true){
+            // 炎技ではなく、かつ接触技のときだけ半減
+            baseDamage = Math.floor(baseDamage * 0.5);
+        }
+    }
+
+    if(defTrait === "マルチスケイル"){
+        baseDamage = Math.floor(baseDamage / 2);
+    }
+
+
     
    // 急所のダメージ補正である。
     if(vital === true){
