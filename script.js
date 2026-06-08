@@ -293,7 +293,7 @@ moveSearch.addEventListener("change", function(){
     }
 });
 
-// 攻撃側のポケモンや設定が変更されたときの処理である。
+
 // 攻撃側のポケモンや設定が変更されたときの処理である。
 function updateAttacker(){
     let index = attackerSearch.value;
@@ -303,17 +303,16 @@ function updateAttacker(){
         let selectedPokemon = pokedex[index];
 
         // --- 画像の処理 ---
-        // 1. 小文字にする 2. 記号やカッコを削除する
-        let formattedName = selectedPokemon.name
-            .toLowerCase()
-            .replace(/[()（）・\s]/g, '');
-
         img.style.display = "block"; // 画像を表示
-        img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`;
+        
+        // PokeAPIを使って図鑑番号（ID）で画像を読み込む
+        let pokemonId = selectedPokemon.id;
+        img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
 
-        // 画像読み込み失敗時の対策 (スペルミスも修正済)
+        // エラー対策（画像がない場合はNoImageなどの枠だけにする）
         img.onerror = function() {
-            this.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`;
+            this.src = ""; // または "images/no_image.png" など
+            this.alt = "画像なし";
         };
 
         // --- ステータスの計算 ---
@@ -371,17 +370,16 @@ function updateDefender(){
         let selectedPokemon = pokedex[index];
 
         // --- 画像の処理 ---
-        let formattedName = selectedPokemon.name
-            .toLowerCase()
-            .replace(/[()（）・\s]/g, ''); 
-
         img.style.display = "block"; // 画像を表示
-        img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`;
+        
+        let pokemonId = selectedPokemon.id;
+        img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
 
         img.onerror = function() {
-            this.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`; 
+            this.src = ""; 
+            this.alt = "画像なし";
         };
-
+        
         // --- ステータスとHPの計算 ---
         let defStatType = defenceTypeSelect.value;
         let baseHP = selectedPokemon.hp;
