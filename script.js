@@ -358,6 +358,18 @@ function updateDefender(){
 
     if(index !== ""){
         let selectedPokemon = pokedex[index];
+
+        // ここで画像要素を取得してURLを書き換える
+        const img = document.getElementById("defPokemonImg");
+        
+        // PokeAPIのURLを生成
+        img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${selectedPokemon.id}.png`;
+
+        // 画像がうまく読み込めなかった時の対策
+        img.onerror = function() {
+            this.src = "no_image.png"; // 画像がない場合の予備画像
+        };
+        
         let defStatType = defenceTypeSelect.value;
 
         let baseHP = selectedPokemon.hp;
