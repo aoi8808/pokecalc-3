@@ -505,9 +505,16 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
         baseDamage = Math.floor(baseDamage / 2);
     }
 
-    // 急所のダメージ補正である。
+    
+   // 急所のダメージ補正である。
     if(vital === true){
-        baseDamage = Math.floor(baseDamage * 1.5);
+        if(atkTrait === "スナイパー"){
+            // スナイパーなら急所ダメージ2.25倍！
+            baseDamage = Math.floor(baseDamage * 2.25);
+        } else {
+            // 通常の急所は1.5倍
+            baseDamage = Math.floor(baseDamage * 1.5);
+        }
     }
 
     // 乱数によるダメージのブレを計算する。
