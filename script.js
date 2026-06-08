@@ -650,23 +650,25 @@ calcButton.addEventListener("click", function() {
         hitCountText = "（4発以上）";
     }
 
-        // HPバーの幅を計算（100%を超えないように調整）
-    let barWidth = maxPercent; 
-    if (barWidth > 100) barWidth = 100;
-    if (barWidth < 0) barWidth = 0;
+        // --- HPバーの処理を修正 ---
 
-    // スタイルを更新してバーを動かす
-    hpBarFill.style.width = barWidth + "%";
+    // 1. 残りHPの割合を計算する (100% - ダメージ割合)
+    let remainingHp = 100 - maxPercent; 
+    
+    // マイナスにならないようにガード
+    if (remainingHp < 0) remainingHp = 0;
 
-    // ついでに色も変えてみる（50%以下で黄色、20%以下で赤にする）
-    if (barWidth <= 20) {
-        hpBarFill.style.backgroundColor = "#dc3545"; // 赤
-    } else if (barWidth <= 50) {
-        hpBarFill.style.backgroundColor = "#ffc107"; // 黄色
+    // 2. スタイルを更新してバーの長さを変える
+    hpBarFill.style.width = remainingHp + "%";
+
+    // 3. 色を残りHPに合わせて変える (残りが多い＝緑、残り少ない＝赤)
+    if (remainingHp <= 20) {
+        hpBarFill.style.backgroundColor = "#dc3545"; // 赤 (ピンチ)
+    } else if (remainingHp <= 50) {
+        hpBarFill.style.backgroundColor = "#ffc107"; // 黄 (半分以下)
     } else {
-        hpBarFill.style.backgroundColor = "#28a745"; // 緑
+        hpBarFill.style.backgroundColor = "#28a745"; // 緑 (元気)
     }
-
     
     let resultText = "ダメージ:" + minDamage + " ～ " + maxDamage + "<br>";   
     resultText += "割合: " + minPercent + "% ～ " + maxPercent + "%<br>";
