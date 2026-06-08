@@ -319,7 +319,18 @@ function updateAttacker(){
         };
     }
 }
-        
+
+        // updateAttacker 関数の中に追加
+const img = document.getElementById("atkPokemonImg");
+
+// ポケモンが選ばれているときだけ画像を表示する
+if (index !== "") {
+    img.style.display = "block"; // 表示
+    img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`; // URL
+} else {
+    img.style.display = "none";  // 非表示（画像URLが空の時は枠を隠す）
+}
+
         let statType = attackTypeSelect.value;
         let baseAttack = selectedPokemon[statType];
         let baseSpeed1 = selectedPokemon.speed;
@@ -383,11 +394,22 @@ function updateDefender(){
         // 画像読み込み失敗時の対策
         img.onerror = function() {
             // 見つからない場合は通常フォルムに戻すか、NoImageを出す
-            this.src = `https://play.pokemon szdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`;
+            this.src = `https://play.pokemon szdown.com/sprites/ani/${formattedName.replace('mega', '')}.gif`; 
         };
     }
 }
-        
+
+        // updateAttacker 関数の中に追加
+const img = document.getElementById("defPokemonImg");
+
+// ポケモンが選ばれているときだけ画像を表示する
+if (index !== "") {
+    img.style.display = "block"; // 表示
+    img.src = `https://play.pokemonshowdown.com/sprites/ani/${formattedName}.gif`; //URL
+} else {
+    img.style.display = "none";  // 非表示（画像URLが空の時は枠を隠す）
+}
+
         let defStatType = defenceTypeSelect.value;
 
         let baseHP = selectedPokemon.hp;
