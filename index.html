@@ -13,11 +13,14 @@
         <h3>ポケモン1（攻撃側）</h3>
         
         <label>攻撃ポケモン検索:</label>
-        <input type="text" id="atkSearchInput" placeholder="名前で検索 (例: ルカリオ)">
-        <select id="attackerSearch">
-            <option value="">ーー選択してくださいーー</option>
-        </select>
-        <img id="atkPokemonImg" src="" alt="ポケモン画像" style="width:100px; height:100px;">
+<input type="text" id="atkSearchInput" placeholder="名前で検索">
+
+<div class="pokemon-selector-row">
+    <img id="atkPokemonImg" src="" alt="ポケモン画像" style="width: 60px; height: 60px; border-radius: 5px;">
+    <select id="attackerSearch">
+        <option value="">ーー選択してくださいーー</option>
+    </select>
+</div>
         <br><br>
     
         <label>使うステータス:</label>
@@ -96,12 +99,15 @@
 
         <h3>ポケモン2（防御側）</h3>
         
-        <label>防御ポケモン検索:</label>
-        <input type="text" id="defSearchInput" placeholder="名前で検索 (例: カビゴン)">
-        <select id="defenderSearch">
-            <option value="">ーー選択してくださいーー</option>
-        <img id="defPokemonImg" src="" alt="ポケモン画像" style="width:100px; height:100px;">   
-        </select>
+      <label>防御ポケモン検索:</label>
+<input type="text" id="defSearchInput" placeholder="名前で検索">
+
+<div class="pokemon-selector-row">
+    <img id="defPokemonImg" src="" alt="ポケモン画像" style="width: 60px; height: 60px; border-radius: 5px;">
+    <select id="defenderSearch">
+        <option value="">ーー選択してくださいーー</option>
+    </select>
+</div>
         <br><br>
 
         <label>受けるステータス:</label>
