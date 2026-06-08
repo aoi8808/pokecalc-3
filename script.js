@@ -545,8 +545,15 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
 
     // タイプ一致の補正である。
     if (isStab === true) {
-        minDamage = Math.floor(minDamage * 1.5);
-        maxDamage = Math.floor(maxDamage * 1.5);
+        if (atkTrait === "てきおうりょく") {
+            // てきおうりょくの場合は2.0倍になる！
+            minDamage = Math.floor(minDamage * 2.0);
+            maxDamage = Math.floor(maxDamage * 2.0);
+        } else {
+            // 通常のタイプ一致は1.5倍
+            minDamage = Math.floor(minDamage * 1.5);
+            maxDamage = Math.floor(maxDamage * 1.5);
+        }
     }
 
     // タイプ相性の補正である。
