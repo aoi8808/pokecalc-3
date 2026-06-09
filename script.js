@@ -402,6 +402,15 @@ function updateDefender(){
         
         let defCore = Math.floor((baseDef * 2 + 31) * 50 / 100) + 5 + defEv;
         let finalDef = Math.floor(defCore * nature);
+
+        let trait = defTraitSelect.value; // 防御側の特性を取得
+
+        if((trait === "ファーコート") && statType === "defence"){
+            finalDef = Math.floor(finalDef* 2.0);
+        }
+
+        
+        
         defenceInput.value = finalDef;
 
         let hpEv = Number(hpEvInput.value);
@@ -496,7 +505,12 @@ function getRankModifier(rank) {
 }
 
 // 最終的なダメージ計算を行う関数である。
-function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura){
+function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura, isSound, categoryCode){
+
+    if(atkTrait === "テクニシャン" && power <= 60){
+        power = Math.floor(power * 1.5);
+    }
+    
     if(field === true){
         power = Math.floor(power * 1.3);
     }
@@ -521,6 +535,10 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
         power = Math.floor(power * 1.5);
     }
 
+    if(atkTrait === "すいほう" && moveType === "みず"){
+        power = Math.floor(power * 2.0);
+    }   
+    
     if(weather === "sun"){
         if(moveType === "ほのお") power = Math.floor(power * 1.5);
     }
@@ -543,6 +561,14 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
     let finalAtk = Math.floor(attack * atkRankMod);
     let finalDef = Math.floor(defence * defRankMod);
 
+    if (atkTrait === "トランジスタ" && moveType === "でんき") {
+        finalAtk = Math.floor(finalAtk * 1.3); // ※第9世代(SV)仕様
+    }
+
+    if (atkTrait === "りゅうのアギト" && moveType === "ドラゴン") {
+        finalAtk = Math.floor(finalAtk * 1.5);
+    }
+
     let step2 = Math.floor(22 * power * finalAtk / finalDef);    
     let baseDamage = Math.floor(step2 / 50) + 2;
 
@@ -553,6 +579,11 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
             baseDamage = Math.floor(baseDamage * 0.5);
         }
     }
+
+    if (statType === "spAtk" && situationModifier === 0.5) {
+        if(atkTrait === "ねつぼうそう"){
+            baseDamage = Math.floor(baseDamage * 1.5);
+    }    
 
     if (vital === false) { 
         if (statType === "attack" && barrier === "reflect") {
@@ -566,6 +597,24 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
         baseDamage = Math.floor(baseDamage / 2);
     }
 
+    if(defTrait === "すいほう" && moveType === "ほのお"){
+        baseDamage = Math.floor(baseDamage / 2);
+    }
+
+    if(defTrait === "こおりのりんぷん" && categoryCode === "spAtk"){
+        baseDamage = Math.floor(baseDamage * 0.5);
+    }    
+
+    if(defTrait === "かんそうはだ" && moveType === "ほのお"){
+        if (moveType === "みず") {
+            // 水技は回復するため、ツール上は受けるダメージを「0」として扱う
+            baseDamage = 0; 
+        } else if (moveType === "ほのお") {
+            // 炎技はダメージが1.25倍に増える
+            baseDamage = Math.floor(baseDamage * 1.25); 
+        }
+    }
+ 
     if(defTrait === "たいねつ" && moveType === "ほのお" ){
         baseDamage = Math.floor(baseDamage / 2);
     }
@@ -602,6 +651,13 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
             maxDamage = Math.floor(maxDamage * 1.5);
         }
     }
+
+    if (modifier > 1) { // タイプ相性の倍率が1より大きい（弱点）のとき
+        if (defTrait === "フィルター" || defTrait === "ハードロック" || defTrait === "プリズムアーマー") {
+            modifier = modifier * 0.75;
+        }
+    }
+
 
     minDamage = Math.floor(minDamage * modifier);
     maxDamage = Math.floor(maxDamage * modifier);
@@ -647,7 +703,28 @@ calcButton.addEventListener("click", function() {
         isPunch = selectedMove.isPunch;
         isBite = selectedMove.isBite;
         isAura = selectedMove.isAura;
-    }    
+    }
+
+    let atkTrait = atkTraitSelect.value;
+
+    if (moveType === "ノーマル") {
+        if (atkTrait === "フェアリースキン") {
+            moveType = "フェアリー";
+            power = Math.floor(power * 1.2); 
+        } else if (atkTrait === "ドラゴンスキン") { 
+            moveType = "ドラゴン";
+            power = Math.floor(power * 1.2);
+        } else if (atkTrait === "スカイスキン") {
+            moveType = "ひこう";
+            power = Math.floor(power * 1.2);
+        } else if (atkTrait === "フリーズスキン") {
+            moveType = "こおり";
+            power = Math.floor(power * 1.2);
+        } else if (atkTrait === "エレキスキン") {
+            moveType = "でんき";
+            power = Math.floor(power * 1.2);
+        }
+    }
 
     let defIndex = defenderSearch.value;
     if (defIndex === "") {
@@ -668,8 +745,6 @@ calcButton.addEventListener("click", function() {
     let isStab = stabCheck.checked;
     let vital  = vitalCheck.checked;
 
-   
-    let atkTrait = atkTraitSelect.value;
     let defTrait = defTraitSelect.value;
 
     let barrier = barrierSelect.value;
