@@ -312,7 +312,7 @@ function updateAttacker(){
         // 見つからなかった場合（新メガシンカなど）のエラー対策
         img.onerror = function() {
         // 自分のパソコン（GitHub）の images フォルダの画像を代わりに表示する
-        img.src = `./images/${pokemonId}.gif`;
+        img.src = `./image/${pokemonId}.gif`;
     
         img.onerror = function() {
             this.src = ""; 
@@ -383,7 +383,7 @@ function updateDefender(){
         // 見つからなかった場合（新メガシンカなど）のエラー対策
         img.onerror = function() {
         // 自分のパソコン（GitHub）の images フォルダの画像を代わりに表示する
-        img.src = `./images/${pokemonId}.gif`;
+        img.src = `./image/${pokemonId}.gif`;
     
         img.onerror = function() {
             this.src = ""; 
