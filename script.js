@@ -315,7 +315,7 @@ function updateAttacker(){
         // 自分のパソコン（GitHub）の images フォルダの画像を代わりに表示する
         this.src = `./image/${pokemonId}.gif`;
     
-        img.onerror = function() {
+        this.onerror = function() {
             this.src = ""; 
             this.alt = "画像なし";
         };
@@ -386,7 +386,7 @@ function updateDefender(){
         // 自分のパソコン（GitHub）の images フォルダの画像を代わりに表示する
         this.src = `./image/${pokemonId}.gif`;
     
-        img.onerror = function() {
+        this.onerror = function() {
             this.src = ""; 
             this.alt = "画像なし";
         };
@@ -588,6 +588,7 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
     if (statType === "spAtk" && situationModifier === 0.5) {
         if(atkTrait === "ねつぼうそう"){
             baseDamage = Math.floor(baseDamage * 1.5);
+    }    
     }    
 
     if (vital === false) { 
