@@ -155,7 +155,7 @@ function parseMoveCSV(csvText) {
             isSound:   data[7] ? (data[7].trim() === "〇") : false, // 音技 (8列目)
             isPunch:   data[8] ? (data[8].trim() === "〇") : false, // パンチ技 (9列目)
             isBite:    data[9] ? (data[9].trim() === "〇") : false, // 牙技 (10列目)
-            isAura:    data[10]? (data[10].trim() === "〇"): false  // 波動技 (11列目)
+            isAura:    data[10]? (data[10].trim() === "〇"): false, // 波動技 (11列目)
             isCut :    data[11]? (data[11].trim() === "〇"): false  // 切断技 (12列目)
         });
     }
@@ -761,7 +761,7 @@ calcButton.addEventListener("click", function() {
     let weather = weatherSelect.value;
     let item = itemSelect.value;
 
-    let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura, isSound, categoryCode);
+    let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura, isSound, categoryCode, isCut);
     let minDamage = damageRange[0];
     let maxDamage = damageRange[1];
 
