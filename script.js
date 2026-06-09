@@ -312,13 +312,12 @@ function updateAttacker(){
         // 見つからなかった場合（新メガシンカなど）のエラー対策
         img.onerror = function() {
         // 自分のパソコン（GitHub）の images フォルダの画像を代わりに表示する
-        this.src = `./images/${pokemonId}.png`;
+        this.src = `./${pokemonId}.png`;
     
-        // それでも無ければ「画像なし」アイコンにする
-        this.onerror = function() {
-        this.src = "./images/no_image.png"; 
-    }
-};
+        img.onerror = function() {
+            this.src = ""; 
+            this.alt = "画像なし";
+        };
         // --- ステータスの計算 ---
         let statType = attackTypeSelect.value;
         let baseAttack = selectedPokemon[statType];
@@ -382,13 +381,12 @@ function updateDefender(){
         // 見つからなかった場合（新メガシンカなど）のエラー対策
         img.onerror = function() {
         // 自分のパソコン（GitHub）の images フォルダの画像を代わりに表示する
-        this.src = `./images/${pokemonId}.png`;
+        this.src = `./${pokemonId}.png`;
     
-        // それでも無ければ「画像なし」アイコンにする
-        this.onerror = function() {
-        this.src = "./images/no_image.png"; 
-    }
-};
+        img.onerror = function() {
+            this.src = ""; 
+            this.alt = "画像なし";
+        };
         
         // --- ステータスとHPの計算 ---
         let defStatType = defenceTypeSelect.value;
