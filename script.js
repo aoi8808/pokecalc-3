@@ -318,6 +318,8 @@ function updateAttacker(){
             this.src = ""; 
             this.alt = "画像なし";
         };
+        };
+            
         // --- ステータスの計算 ---
         let statType = attackTypeSelect.value;
         let baseAttack = selectedPokemon[statType];
@@ -387,7 +389,8 @@ function updateDefender(){
             this.src = ""; 
             this.alt = "画像なし";
         };
-        
+        };
+            
         // --- ステータスとHPの計算 ---
         let defStatType = defenceTypeSelect.value;
         let baseHP = selectedPokemon.hp;
