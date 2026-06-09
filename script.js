@@ -156,6 +156,7 @@ function parseMoveCSV(csvText) {
             isPunch:   data[8] ? (data[8].trim() === "〇") : false, // パンチ技 (9列目)
             isBite:    data[9] ? (data[9].trim() === "〇") : false, // 牙技 (10列目)
             isAura:    data[10]? (data[10].trim() === "〇"): false  // 波動技 (11列目)
+            isCut :    data[11]? (data[11].trim() === "〇"): false  // 切断技 (12列目)
         });
     }
     return result;
@@ -505,7 +506,7 @@ function getRankModifier(rank) {
 }
 
 // 最終的なダメージ計算を行う関数である。
-function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura, isSound, categoryCode){
+function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura, isSound, categoryCode, isCut){
 
     if(atkTrait === "テクニシャン" && power <= 60){
         power = Math.floor(power * 1.5);
@@ -532,6 +533,10 @@ function calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital
     }
 
     if (atkTrait === "メガランチャー" && isAura === true) {
+        power = Math.floor(power * 1.5);
+    }
+
+    if (atkTrait === "きれあじ" && isCut === true) {
         power = Math.floor(power * 1.5);
     }
 
@@ -696,6 +701,7 @@ calcButton.addEventListener("click", function() {
     let isAura = false;
     let isSound = false;
     let categoryCode = "";
+    let isCut = false;
 
     if(moveIndex !== ""){
         let selectedMove = moveDex[moveIndex]; 
@@ -706,6 +712,7 @@ calcButton.addEventListener("click", function() {
         isAura = selectedMove.isAura;
         isSound = selectedMove.isSound;
         categoryCode = selectedMove.category;
+        isCut = selectedMove.isCut;
     }
 
     let atkTrait = atkTraitSelect.value;
