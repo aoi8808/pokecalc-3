@@ -694,7 +694,8 @@ calcButton.addEventListener("click", function() {
     let isPunch = false;
     let isBite = false;
     let isAura = false;
-    
+    let isSound = false;
+    let categoryCode = "";
 
     if(moveIndex !== ""){
         let selectedMove = moveDex[moveIndex]; 
@@ -703,6 +704,8 @@ calcButton.addEventListener("click", function() {
         isPunch = selectedMove.isPunch;
         isBite = selectedMove.isBite;
         isAura = selectedMove.isAura;
+        isSound = selectedMove.isSound;
+        categoryCode = selectedMove.category;
     }
 
     let atkTrait = atkTraitSelect.value;
@@ -751,7 +754,7 @@ calcButton.addEventListener("click", function() {
     let weather = weatherSelect.value;
     let item = itemSelect.value;
 
-    let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura);
+    let damageRange = calculateDamage(power, attack, defence, atkRank, defRank, isStab, vital, modifier, item, field, defTrait, moveType, weather, situationModifier, statType, barrier, atkTrait, isContact, isPunch, isBite, isAura, isSound, categoryCode);
     let minDamage = damageRange[0];
     let maxDamage = damageRange[1];
 
