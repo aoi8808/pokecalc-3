@@ -8,114 +8,125 @@
 <body>
     <h1>ダメージ計算ツール</h1>
 
-    <div class="container">
-
-        <h3>ポケモン1（攻撃側）</h3>
+    <div class="flex-layout">
         
-        <label>攻撃ポケモン検索:</label>
-<input type="text" id="atkSearchInput" placeholder="名前で検索">
+        <div class="container flex-left">
+            <h3>ポケモン1（攻撃側）</h3>
+            
+            <label>攻撃ポケモン検索:</label>
+            <input type="text" id="atkSearchInput" placeholder="名前で検索">
 
-<div class="pokemon-selector-row">
-    <img id="atkPokemonImg" src="" alt="ポケモン画像">
-    <select id="attackerSearch">
-        <option value="">ーー選択してくださいーー</option>
-    </select>
-</div>
-        <br>
-    
-        <label>使うステータス:</label>
-        <select id="attackTypeSelect">
-            <option value="attack">物理攻撃 (こうげき)</option>
-            <option value="spAttack">特殊攻撃 (とくこう)</option>
-        </select>
-        <br>
+            <div class="pokemon-selector-row">
+                <img id="atkPokemonImg" src="" alt="ポケモン画像">
+                <select id="attackerSearch">
+                    <option value="">ーー選択してくださいーー</option>
+                </select>
+            </div>
+            
+            <label>使うステータス:</label>
+            <select id="attackTypeSelect">
+                <option value="attack">物理攻撃 (こうげき)</option>
+                <option value="spAttack">特殊攻撃 (とくこう)</option>
+            </select>
 
-        <label>攻撃ランク:</label>
-        <select id="atkRankSelect">
-            <option value="6">+6</option>
-            <option value="5">+5</option>
-            <option value="4">+4</option>
-            <option value="3">+3</option>
-            <option value="2">+2 (剣舞)</option>
-            <option value="1">+1</option>
-            <option value="0" selected>0 (通常)</option>
-            <option value="-1">-1 (威嚇)</option>
-            <option value="-2">-2</option>
-            <option value="-3">-3</option>
-            <option value="-4">-4</option>
-            <option value="-5">-5</option>
-            <option value="-6">-6</option>
-        </select>
-        <br>
-        
-        <label>状態:</label>
-        <select id="situationSelect">
-            <option value="1" selected>通常</option>
-            <option value="0.5">やけど</option>
-        </select>
-        <br>
+            <label>攻撃ランク:</label>
+            <select id="atkRankSelect">
+                <option value="6">+6</option>
+                <option value="5">+5</option>
+                <option value="4">+4</option>
+                <option value="3">+3</option>
+                <option value="2">+2 (剣舞)</option>
+                <option value="1">+1</option>
+                <option value="0" selected>0 (通常)</option>
+                <option value="-1">-1 (威嚇)</option>
+                <option value="-2">-2</option>
+                <option value="-3">-3</option>
+                <option value="-4">-4</option>
+                <option value="-5">-5</option>
+                <option value="-6">-6</option>
+            </select>
+            
+            <label>状態:</label>
+            <select id="situationSelect">
+                <option value="1" selected>通常</option>
+                <option value="0.5">やけど</option>
+            </select>
 
-        <label>特性:</label>
-        <select id="atkTraitSelect">
-           <option value="none">ーー選択してくださいーー</option>
-        </select>
-        <br>
+            <label>特性:</label>
+            <select id="atkTraitSelect">
+               <option value="none">ーー選択してくださいーー</option>
+            </select>
 
-        <label>攻撃ポイント(0〜32):</label>
-        <div class="ev-control">
-        <button type="button" onclick="changeEv('atkEvInput', +1)">↑</button>
-        <input type="number" id="atkEvInput" value="32" min="0" max="32">
-        <button type="button" onclick="changeEv('atkEvInput', -1)">↓</button>
+            <label>攻撃ポイント(0〜32):</label>
+            <div class="ev-control">
+                <button type="button" onclick="changeEv('atkEvInput', +1)">↑</button>
+                <input type="number" id="atkEvInput" value="32" min="0" max="32">
+                <button type="button" onclick="changeEv('atkEvInput', -1)">↓</button>
+            </div>
+
+            <label>実数値:</label>
+            <input type="number" id="attackInput">
+
+            <label>素早さ実数値:</label>
+            <input type="number" id="speedInput1">
         </div>
-        <br>
+        <div class="flex-right">
+            
+            <div class="container">
+                <h2>技</h2>
+                <label>技検索:</label>
+                <input type="text" id="moveSearchInput" placeholder="技名で検索">
+                <select id="moveSearch">
+                </select>
 
-        <label>実数値:</label>
-        <input type="number" id="attackInput">
-        <br>
+                <label>威力:</label>
+                <input type="number" id="powerInput">
 
-        <label>素早さ実数値:</label>
-        <input type="number" id="speedInput1">
-        <br>
-    </div>
+                <label>タイプ一致 (1.5倍):</label>
+                <input type="checkbox" id="stabCheck">
+            </div>
 
+            <div class="container">
+                <h2>環境</h2>
+                <label>急所 (1.5倍):</label>
+                <input type="checkbox" id="vitalCheck">
+                
+                <label>持ち物強化 (1.2倍):</label>
+                <select id="itemSelect">
+                    <option value="none">なし</option>
+                    <option value="typeBoost">タイプ強化アイテム</option>
+                </select>
+
+                <label>フィールド効果 (1.3倍):</label>
+                <input type="checkbox" id="fieldCheck">
+
+                <label>天候:</label>
+                <select id="weatherSelect">
+                    <option value="none">なし</option>
+                    <option value="sun">はれ</option>
+                </select>
+            </div>
+
+        </div>
+        </div>
     <div class="container">
-        <h2>技</h2>
-        <label>技検索:</label>
-        <input type="text" id="moveSearchInput" placeholder="技名で検索">
-        <select id="moveSearch">
-        </select>
-        <br>
-
-        <label>威力:</label>
-        <input type="number" id="powerInput">
-        <br>
-
-        <label>タイプ一致 (1.5倍):</label>
-        <input type="checkbox" id="stabCheck">
-        <br>
-    </div>
-
-    <div class="container">
-
         <h3>ポケモン2（防御側）</h3>
         
-      <label>防御ポケモン検索:</label>
-<input type="text" id="defSearchInput" placeholder="名前で検索">
+        <label>防御ポケモン検索:</label>
+        <input type="text" id="defSearchInput" placeholder="名前で検索">
 
-<div class="pokemon-selector-row">
-    <img id="defPokemonImg" src="" alt="ポケモン画像">
-    <select id="defenderSearch">
-        <option value="">ーー選択してくださいーー</option>
-    </select>
-</div>
-        <br>
+        <div class="pokemon-selector-row">
+            <img id="defPokemonImg" src="" alt="ポケモン画像">
+            <select id="defenderSearch">
+                <option value="">ーー選択してくださいーー</option>
+            </select>
+        </div>
 
         <label>受けるステータス:</label>
         <select id="defenceTypeSelect">
             <option value="defence">物理受け (ぼうぎょ)</option>
             <option value="spDefence">特殊受け (とくぼう)</option>
         </select>
-        <br>
 
         <label>防御ランク:</label>
         <select id="defRankSelect">
@@ -133,7 +144,6 @@
             <option value="-5">-5</option>
             <option value="-6">-6</option>
         </select>
-        <br>
 
         <label>壁:</label>
         <select id="barrierSelect">
@@ -141,80 +151,45 @@
             <option value="reflect">リフレクター</option>
             <option value="lightScreen">ひかりのかべ</option>
         </select>
-        <br>
 
         <label>特性:</label>
         <select id="defTraitSelect">
            <option value="none">ーー選択してくださいーー</option>
         </select>
-        <br>
 
         <label>防御ポイント(0〜32):</label>
         <div class="ev-control">
-        <button type="button" onclick="changeEv('defEvInput', +1)">↑</button>
-        <input type="number" id="defEvInput" value="32" min="0" max="32">
-        <button type="button" onclick="changeEv('defEvInput', -1)">↓</button>
+            <button type="button" onclick="changeEv('defEvInput', +1)">↑</button>
+            <input type="number" id="defEvInput" value="32" min="0" max="32">
+            <button type="button" onclick="changeEv('defEvInput', -1)">↓</button>
         </div>
-        <br>
-        
-
         
         <label>HPポイント(0〜32):</label>
-       <div class="ev-control">
-        <button type="button" onclick="changeEv('hpEvInput', +1)">↑</button>
-        <input type="number" id="hpEvInput" value="32" min="0" max="32">
-        <button type="button" onclick="changeEv('hpEvInput', -1)">↓</button>
+        <div class="ev-control">
+            <button type="button" onclick="changeEv('hpEvInput', +1)">↑</button>
+            <input type="number" id="hpEvInput" value="32" min="0" max="32">
+            <button type="button" onclick="changeEv('hpEvInput', -1)">↓</button>
         </div>
-        <br>
         
-
         <label>実数値:</label>
         <input type="number" id="defenceInput">
         
-
         <label>HP実数値:</label>
         <input type="number" id="hpInput">
-        <br>
 
         <label>素早さ実数値:</label>
         <input type="number" id="speedInput2">
-        <br>
-    </div>
-
-    <div class="container">
-        <h2>環境</h2>
-        <label>急所 (1.5倍):</label>
-        <input type="checkbox" id="vitalCheck">
-        <br>
-        
-        <label>持ち物強化 (1.2倍):</label>
-        <select id="itemSelect">
-            <option value="none">なし</option>
-            <option value="typeBoost">タイプ強化アイテム</option>
-        </select>
-        <br>
-
-        <label>フィールド効果 (1.3倍):</label>
-        <input type="checkbox" id="fieldCheck">
-        <br>
-
-        <label>天候:</label>
-        <select id="weatherSelect">
-            <option value="none">なし</option>
-            <option value="sun">はれ</option>
-        </select>
-        <br>
     </div>
 
     <button id="calcButton">計算する</button>
 
     <div id="resultArea" class="result">
         ここに結果が出ます。
-</div>
+    </div>
+    
     <div id="hp-bar-container">
-    <div id="hp-bar-fill"></div>
-</div>
-
+        <div id="hp-bar-fill"></div>
+    </div>
 
     <script src="script.js"></script>
 </body>
