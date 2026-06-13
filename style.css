@@ -102,8 +102,22 @@ input, select {
     margin-bottom: 10px;
 }
 
-/* 念のため、画像が大きすぎないように調整 */
-#atkPokemonImg {
+/* 攻撃側・防御側の両方の画像サイズを固定し、潰れないようにする */
+#atkPokemonImg, #defPokemonImg {
+    width: 80px;            /* スマホ向けの基本サイズ */
+    height: 80px;           /* スマホ向けの基本サイズ */
+    object-fit: contain;    /* 枠内に比率を保ったまま綺麗に収める */
+    flex-shrink: 0;         /* ★超重要：セレクトボックスに押し潰されるのを防ぐ */
     border: 1px solid #ddd;
     background-color: #f9f9f9;
+    border-radius: 8px;     /* 角を少し丸くしてアプリっぽくする */
 }
+
+/* PCやタブレットなど、画面が広い時だけ画像をもう少し大きくする */
+@media screen and (min-width: 600px) {
+    #atkPokemonImg, #defPokemonImg {
+        width: 110px;
+        height: 110px;
+    }
+}
+
