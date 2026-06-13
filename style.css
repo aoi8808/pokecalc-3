@@ -121,3 +121,38 @@ input, select {
     }
 }
 
+/* =========================================
+   横並びレイアウト（PC向け）
+   ========================================= */
+
+/* ① 全体を包む大枠 */
+.flex-layout {
+    display: flex;
+    flex-wrap: wrap; /* スマホ画面では自動で縦並びに折り返す */
+    gap: 15px;       /* 左カラムと右カラムのスキマ */
+    max-width: 800px; /* 全体を広げて、左右に並べられるようにする */
+    margin: 0 auto 10px auto;
+}
+
+/* ② 左側のポケモン1（幅の割合：2） */
+.flex-left {
+    flex: 2;                  /* 右側の「2倍」の幅を持つ */
+    min-width: 300px;         /* スマホ用に最低幅を決めておく */
+    margin: 0 !important;     /* 余計な余白を消す */
+    max-width: none !important;
+}
+
+/* ③ 右側のカラム（幅の割合：1 → ポケモン1のちょうど1/2の幅になる！） */
+.flex-right {
+    flex: 1;                  /* 左側の「半分」の幅になる */
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;   /* 技と環境を「縦」に積んで並べる */
+    gap: 15px;                /* 技と環境の間のスキマ */
+}
+
+/* ④ 右カラムの中のコンテナ（技・環境の白いカード）の調整 */
+.flex-right .container {
+    margin: 0;
+    max-width: none;
+}
